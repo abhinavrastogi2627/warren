@@ -248,7 +248,8 @@ function classifyGraphQLErrors(errors: readonly GitHubGraphQLError[]): ArmAutoMe
 	const message = errors[0]?.message ?? "GraphQL error without a message";
 	// Idempotency (§8): an already-armed PR answers with an "already" message,
 	// which is the success we wanted — no second armer, no double arm.
-	if (/auto[- ]?merge is already enabled/i.test(message)) return { ok: true, value: { outcome: "already_armed" } };
+	if (/auto[- ]?merge is already enabled/i.test(message))
+		return { ok: true, value: { outcome: "already_armed" } };
 	for (const rule of MUTATION_ERROR_CLASSIFICATIONS) {
 		if (rule.pattern.test(message)) return refused(rule.reason, message);
 	}
